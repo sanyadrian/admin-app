@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import exceptions
 from .models import User
 from .serializers import UserSerializer
+from .authentication import generate_access_token
 
 
 @api_view(["POST"])
@@ -15,6 +16,7 @@ def register(request):
     serializer.save()
     return Response(serializer.data)
 
+
 @api_view(["POST"])
 def login(request):
     email = request.data.get("email")
@@ -24,8 +26,15 @@ def login(request):
         raise exceptions.AuthenticationFailed("User not Found")
     if not user.check_password(password):
         raise exceptions.AuthenticationFailed("Incorrect Password!")
-    
-    return Response("success")
+ 
+    response = Response()
+    token = generate_access_token(user)
+    response.set_cookie(key="jwt", value=token, httponly=True)
+    response.data = {
+        "jwt": token
+    }
+    return response
+
 
 @api_view(["GET"])
 def users(request):
