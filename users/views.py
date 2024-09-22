@@ -15,6 +15,18 @@ def register(request):
     serializer.save()
     return Response(serializer.data)
 
+@api_view(["POST"])
+def login(request):
+    email = request.data.get("email")
+    password = request.data.get("password")
+    user = User.objects.filter(email=email).first()
+    if user is None:
+        raise exceptions.AuthenticationFailed("User not Found")
+    if not user.check_password(password):
+        raise exceptions.AuthenticationFailed("Incorrect Password!")
+    
+    return Response("success")
+
 @api_view(["GET"])
 def users(request):
     serializer = UserSerializer(User.objects.all(), many=True)
