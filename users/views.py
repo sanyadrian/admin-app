@@ -48,6 +48,7 @@ def logout(request):
     }
     return response
 
+
 class AuthenticatedUser(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
