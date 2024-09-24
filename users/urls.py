@@ -1,6 +1,14 @@
 from django.contrib import admin
 from django.urls import path
-from .views import register, login, AuthenticatedUser, logout, PermissionsAPIView, RoleViewSet
+from .views import (
+    register,
+    login,
+    AuthenticatedUser,
+    logout,
+    PermissionsAPIView,
+    RoleViewSet,
+    UserGenericAPIView,
+)
 
 
 urlpatterns = [
@@ -17,6 +25,8 @@ urlpatterns = [
         "get": "retrieve",
         "put": "update",
         "delete": "destroy"
-    }))
+    })),
+    path("users", UserGenericAPIView.as_view()),
+    path("users/<str:pk>", UserGenericAPIView.as_view())
 ]
 
