@@ -15,7 +15,7 @@ urlpatterns = [
     })),
     path("roles/<str:pk>", RoleViewSet.as_view({
         "get": "retrieve",
-        "put": "updated",
+        "put": "update",
         "delete": "destroy"
     }))
 ]
