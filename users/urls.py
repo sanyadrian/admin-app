@@ -8,6 +8,8 @@ from .views import (
     PermissionsAPIView,
     RoleViewSet,
     UserGenericAPIView,
+    ProfileInfoAPIView,
+    ProfilePasswordAPIView
 )
 
 
@@ -26,6 +28,8 @@ urlpatterns = [
         "put": "update",
         "delete": "destroy"
     })),
+    path("users/info", ProfileInfoAPIView.as_view()),
+    path("users/password", ProfilePasswordAPIView.as_view()),
     path("users", UserGenericAPIView.as_view()),
     path("users/<str:pk>", UserGenericAPIView.as_view())
 ]
